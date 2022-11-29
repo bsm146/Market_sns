@@ -1,0 +1,49 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	
+	</style>
+<meta charset="UTF-8">
+<title>테스트</title>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<body>
+
+<%
+	int a = 1;
+	int b = 2;
+	int c = a + b;
+%>
+
+	<p class="cc"><%= c %></p>
+	<button id="cl" onclick="name(<%=c%>">클릭</button>
+
+
+	<script>
+		
+	
+// 		$("#cl").click(function name(a){
+//             $(".cc").text("ㅎㅇ");
+//             $(".cc").css("background", "yellow");
+            
+//         });
+		
+		
+		$("#cl").click({param1: "Hello", param2: "World"}, cool_function);
+
+		function cool_function(event){
+		    alert(event.data.param1);
+		    alert(event.data.param2);
+		}
+		
+		function name(a) {
+			alert(a);
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<%@page import="java.sql.*" %>
+<%@page import="board.boardDAO"%>
+<%@page import="member.memberDAO"%>
+<%@page import="member.memberDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions"	prefix="fn"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<head>
+<!-- <head profile="http://www.w3.org/2005/10/profile"> -->
+	<style type="text/css">
+		p {
+			width: 800px;
+		}
+		.parent {
+			height: 500px;
+			background: #EB5050;
+		}
+		
+		/* 무한 스크롤 */
+		html, body{ margin: 0; }
+		h1 {
+		  position: fixed; top: 0; width: 100%; height: 60px; 
+		  text-align: center; background: white; margin: 0; line-height: 60px;
+		}
+		section .box {height: 500px; background: red;}
+		section .box p {margin: 0; color: white; padding: 80px 20px;}
+		section .box:nth-child(2n) {background: blue;}
+	</style>
+<link rel = "stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<meta charset="UTF-8">
+<title>Home</title>
+
+</head>	
+
+<body>
+
+	<!-- 이 페이지에 처음 오면 서블릿으로 가서 게시물 관련된 정보들을 만들러 감 -->
+	
+	<c:if test="${listBoard == null }">
+		<script type="text/javascript">
+			location.href="/sns/controller/selectBoard?pageRoute=selectBoard";
+		</script>
+	</c:if>
+	
+	<jsp:include page="../Nav/HomeNav.jsp"/>
+	
+	<!-- ─────────────────────────────────────────────────────────────────────────── -->
+	<!-- 전체 게시물 출력 시작-->
+	
+	<br><br><br><br>
+	<div class="container">
+		<section>
+			<p>─────────────────────────────────────────────────────────────
+<%-- 			<c:set var="listBoardLength" value="${fn:length(listBoard)}"></c:set> --%>
+<%-- 			<c:out value="${listBoardLength}"></c:out> --%>
+			<c:choose>
+				<c:when test="${boardCount == null}">
+					<c:forEach var="i"  begin="0" end="5">
+			        	<p><h3>게시글 번호 ${listBoard.get(i).getBid()}</h3>
+					    <p>작성자 프사 <a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.get(i).getPfp()}">${listBoard.get(i).getId()}</a> 작성자 아이디 <a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.get(i).getBid()}">${listBoard.get(i).getId()}</a>
+					    <p style="height: 100px;">게시글 사진 ${listBoard.get(i).getPfp()}
+						<p>
+							<button class="btn btn-secondary" onclick="scrollStop('likeWho', ${listBoard.get(i).getBid()}, ${i})">좋아요</button>
+							<button class="btn btn-secondary" onclick="scrollStop('likeWho', ${listBoard.get(i).getBid()})">모달댓글</button>
+							<button class="btn btn-secondary">메세지</button>
+						<p><a href="#" data-toggle="modal" data-target="#logout" data-bid="${listBoard.get(i).getBid()}">좋아요(모달) ${listBoard.get(i).getLikeCount()}개</a>
+						
+						<p>작성자 아이디 ${listBoard.get(i).getId()}
+						<p>게시글 내용 ${listBoard.get(i).getContent()}
+						
+						<c:if test="${listBoard.commentCount != 0}">
+							<p><a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.bid}">댓글 ${listBoard.commentCount}개 보기</a>
+							<p>────────────────────────────
+			<%-- 				<c:forEach var="listComment" items="${listComment}" varStatus="status"> --%>
+			<%-- 					<c:if test="${listBoard.bid == listComment.id}"> --%>
+			<%-- 						<p>댓글 작성자 프사${listComment.pfp} // 댓글 작성자 아이디 ${listComment.cid} --%>
+			<%-- 						<p>댓글 내용 ${listComment.content} --%>
+			<%-- 						<p>댓글 날짜 ${listComment.birth} 댓글 좋아요 ${listComment.likeCount} --%>
+			<!-- 						<p>──────────────────────────── -->
+			<%-- 					</c:if> --%>
+			<%-- 				</c:forEach> --%>
+						</c:if>
+						<p>${listBoard.birth}
+						<p>
+							<form name="form${listBoard.bid}" method="post" action="/SNS/one.do?pageRoute=insertComment&bid=${listBoard.bid}&commentDetail=Home">
+								<input id="comment" name="comment" type="text" class="form-control" placeholder="댓글 달기" style="width: 200px; float: left;">
+								<button class="btn btn-secondary">등록</button>
+								
+								<button class="btn btn-secondary" onclick="scrollStop('insertComment', ${listBoard.bid})">등록2</button>
+								<input style="border: none;" type="button" value="등록" onclick="z();" class="btn btn-primary btn">
+							</form>
+							<input type="button" value="등록" onclick="z();">
+							<br>
+				
+						<p>─────────────────────────────────────────────────────────────
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="i"  begin="0" end="${boardCount + 1}">
+			        	<p><h3>게시글 번호 ${listBoard.get(i).getBid()}</h3>
+					    <p>작성자 프사 <a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.get(i).getPfp()}">${listBoard.get(i).getId()}</a> 작성자 아이디 <a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.get(i).getBid()}">${listBoard.get(i).getId()}</a>
+					    <p style="height: 100px;">게시글 사진 ${listBoard.get(i).getPfp()}
+						<p>
+							<button class="btn btn-secondary" onclick="scrollStop('likeWho', ${listBoard.get(i).getBid()}, ${i})">좋아요</button>
+							<button class="btn btn-secondary" onclick="scrollStop('likeWho', ${listBoard.get(i).getBid()})">모달댓글</button>
+							<button class="btn btn-secondary">메세지</button>
+						<p><a href="#" data-toggle="modal" data-target="#logout" data-bid="${listBoard.get(i).getBid()}">모달 좋아요 ${listBoard.get(i).getLikeCount()}개</a>
+						<p>─────────────────────────────────────────────────────────────
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+		</section>
+	</div>
+	<br><br><br>
+	
+	<!-- 전체 게시물 출력 종료 -->
+	<!-- ─────────────────────────────────────────────────────────────────────────── -->
+	
+	
+	<!-- ??  -->
+	
+	<c:if test="${boardCount == null}">
+		<c:set var="boardCount" value="-1"></c:set>
+	</c:if>
+	
+	
+	<!-- ─────────────────────────────────────────────────────────────────────────── -->
+	<!-- 자바스크립트 코드 시작 -->
+	
+	<script>
+		
+		
+		// el에 있던 listBoard(게시물 정보)를 자바스크립트 배열 arr에 담는다
+		var arr = new Array();
+		<c:forEach items="${listBoard}" var="item">         
+			arr.push({
+				bid 		: "${item.getBid()}",
+				id 			: "${item.getId()}",
+				content 	: "${item.getContent()}" ,
+				birth		: "${item.getBirth()}" ,
+				likeCount	: "${item.getLikeCount()}" ,
+				pfp 		: "${item.getPfp()}" 
+			}); 
+		</c:forEach> 
+	
+		// 몇번째 게시물의 버튼을 눌렀는지에 대한 값을 자바스크립트 변수 boardCount에 담는다
+		var boardCount = <c:out value="${boardCount}"></c:out>;
+		
+		// 기능 버튼을 눌렀으면
+		if (boardCount >= 0) {
+			
+			// 무한 스크롤 시작 인덱스를 boardCount + 2번째로 함(2번째 버튼을 눌렀으면 4번째 게시물부터 보여줌. 3번째는 이미 만들어져있음)
+			var index = boardCount + 2
+			window.onscroll = function(e) {
+		    	if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) { 
+		        	var addContent = document.createElement("div");
+		        	addContent.innerHTML =  '<p><h3>게시글 번호' + arr[index].bid + '</h3>' +
+				    						'<p>' + 
+				    							'작성자 프사 ' + '<a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.get(i).getPfp()}">' + arr[index].id + '</a> ' + 
+				     							'작성자 아이디 ' + '<a href="/SNS/one.do?pageRoute=selectBoardDetail&bid=${listBoard.get(i).getBid()}">' + arr[index].id + '</a>' + 
+				    						'<p style="height: 100px;">게시글 사진 ' + arr[index].pfp + 
+				    						'<p>' + 
+					     						'<button class="btn btn-secondary" onclick="scrollStop(\'likeWho\', ' + arr[index].bid + ', ' + index + ')">좋아요</button>' +
+					     						'<button class="btn btn-secondary" onclick="scrollStop(' + arr[index].bid + ')">모달댓글</button>' + 
+					     						'<button class="btn btn-secondary">메세지</button>' +
+					       					'<p><a href="#" data-toggle="modal" data-target="#logout" data-bid="${listBoard.get(i).getBid()}">모달 좋아요 ' + arr[index].likeCount + '개</a>' + 
+					       					'<p>─────────────────────────────────────────────────────────────'
+		       								;
+			       document.querySelector('section').appendChild(addContent);
+			       index++;
+				}
+			}
+		}
+		
+		function z() {
+			console.log('hi');
+			console.log(document.form.comment.value);
+		}
+		
+		function scrollStop(pageRoute, bid, boardCount) { 
+			
+			sessionStorage.Y = window.scrollY;
+			var y = window.scrollY;
+	       
+			// 좋아요
+			if (pageRoute == 'likeWho') {
+	       		location.href="/sns/controller/likeWho?pageRoute=likeWho&bid=" + bid + "&scroll=" + y + "&boardCount=" + boardCount;
+			}
+	       
+	  	  	// 댓글
+	  	  	else if (pageRoute == 'insertComment') {
+	       		location.href="/sns/controller/insertComment?pageRoute=insertComment&bid=" + bid + "&scroll=" + y + "&commentDetail=Home&content=con1";
+			}
+		} 
+	
+	</script>
+    
+    <!-- 자바스크립트 코드 종료 -->
+    <!-- ─────────────────────────────────────────────────────────────────────────── -->
+
+
+
+	<!-- 스크롤 내려주는 기능 -->
+	
+	<c:if test="${scroll != null}">
+		<script>
+			setTimeout(function(){
+				window.scrollTo(0, sessionStorage.Y);
+			}, 10)  
+		</script>
+	</c:if>
+
+
+
+	<!-- ─────────────────────────────────────────────────────────────────────────── -->
+	<!-- 모달 시작 -->
+	
+	<div class="modal fade" id="#logout" tabindex="-1" role="dialog"></div>
+	<div class="modal" id="logout">
+		<div class="modal-dialog">
+			<div class="modal-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">로그아웃</h4>
+				</div>
+	
+				<!-- Modal body -->
+				
+				<div class="modal-body">
+					<p>로그아웃 하시겠습니까?
+					<p>${listBoard[0].bid}
+					
+				</div>
+	
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 모달 종료 -->
+	<!-- ─────────────────────────────────────────────────────────────────────────── -->
+	
+</body>
+</html>
