@@ -9,7 +9,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display:flex;
+    display: flex;
+    flex-direction: column;
 }
 
 #profile{

@@ -15,6 +15,7 @@
 	border:1px solid #6667AB;
 	border-radius:7px;
 	padding:10px 0px 0px 0px;
+	background-color:white;
 }
 
 .container h2{
@@ -58,7 +59,7 @@ margin-bottom:10px;
 }
 </style>
 </head>	
-<body>
+<body style="background-color:#f5f5f5;">
 
 
 	
@@ -69,9 +70,9 @@ margin-bottom:10px;
 			<li>
 			<div class="wrap-profile">
 			<div class="profilePhoto">
-			<a href="/sns/controller/AcHomePage?id='${memberDTO.getMid() }'"><img class="profile" src="../profilephoto/${memberDTO.getPfp() }"/></a>
+			<a href="/sns/controller/AcHomePage?m2id=${memberDTO.getMid() }"><img class="profile" src="../profilephoto/${memberDTO.getPfp() }"/></a>
 			</div>
-			<a class="id-tag" href="/sns/controller/AcHomePage?id='${memberDTO.getMid() }'">${memberDTO.getMid() }</a>
+			<a class="id-tag" href="/sns/controller/AcHomePage?m2id=${memberDTO.getMid() }">${memberDTO.getMid() }</a>
 			</div>
 	
 		</c:forEach>

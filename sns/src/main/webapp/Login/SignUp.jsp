@@ -13,19 +13,18 @@
 #menu p{margin-bottom: 22px; margin-top:30px;}
 #form {width: 50%;float: left;}
 #form p {margin-top:25px;margin-bottom:20px;}
-
+.container{background-color: white; 
+padding: 30px 50px;
+border-radius:10px;
+border:1px solid;    
+border-color:#6667AB;
+margin-top :100px;}
+.from-group{}
 </style>
 </head>   
-<body>
-
-   <jsp:include page="../Nav/HomeNav.jsp"></jsp:include>
+<body style="background-color: #f5f5f5;">
    
    <script type="text/javascript">   
-   
-      function sub(){
-         var form = document.getElementById("signUpForm");
-         form.submit();
-      }
       
       function CheckAddProduct(){
          var form = document.getElementById("signUpForm");
@@ -43,74 +42,78 @@
          //생년월일 : 94-06-12
          var birthExp = /^([0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
          
-         if(!numExp.test(document.member.phone.value)){
-            alert("'-'을 포함");
-         }
          if(!idReg.test(document.member.mid.value)) {
              alert("아이디는 영문,숫자 포함하여 5이상 20자리이하로");
+             return false;
          }else if(!pwExp.test(document.member.pw.value)){
             alert("비밀번호는 영문,숫자,특수문자 중 2가지 이상 10~20자리까지");
+            return false;
          }else if(!nameExp.test(document.member.name.value)){
             alert("이름 2~4자 이내");
+            return false;
          }else if(!regExp.test(document.member.email.value)){
             alert("@ 포함하여 이메일형식에 맞게 입력");
+            return false;
          }else if(!numExp.test(document.member.phone.value)){
             alert("'-'을 포함");
+            return false;
          }else if(!birthExp.test(document.member.birth.value)){
             alert("94-06-12 형태로 입력");
+            return false;
          }else{
+        	 
             form.submit();
          }
       }
    </script>
 
-   <div class="container">
-		<form action="/sns/controller/SignUp" class="was-validated" name="member" id="signUpForm" method="post">
-		  
-		  <div class="form-group">
-		    <label for="mid">ID:</label>
-		    <input type="text" class="form-control" name="mid" id="mid" placeholder="Enter username" name="uname" required>
-		    <div class="valid-feedback">Valid.</div>
-		    <div class="invalid-feedback">아이디를 입력해 주세요</div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="pw">Password:</label>
-		    <input type="text" class="form-control" name="pw" id="pw" placeholder="Enter password" name="pswd" required>
-		    <div class="valid-feedback">Valid.</div>
-		    <div class="invalid-feedback">비밀번호를 입력해 주세요</div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="name">name:</label>
-		    <input type="text" class="form-control" name="name" id="name" placeholder="Enter password" name="pswd" required>
-		    <div class="valid-feedback">Valid.</div>
-		    <div class="invalid-feedback">이름을 입력해 주세요</div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="email">email:</label>
-		    <input type="text" class="form-control" name="email" id="email" placeholder="Enter password" name="pswd" required>
-		    <div class="valid-feedback">Valid.</div>
-		    <div class="invalid-feedback">이메일을 입력해 주세요</div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="phone">phone:</label>
-		    <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter password" name="pswd" required>
-		    <div class="valid-feedback">Valid.</div>
-		    <div class="invalid-feedback">전화번호를 입력해 주세요</div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="birth">birth:</label>
-		    <input type="date" class="form-control" name="birth" id="birth" placeholder="Enter password" name="pswd" required>
-		    <div class="valid-feedback">Valid.</div>
-		    <div class="invalid-feedback">생년월일을 선택해 주세요</div>
-		  </div>	
-			
-		  <button type="submit" class="btn btn-primary">회원가입</button>
-		</form>
+   <div class="container" style="background-color: white; padding: 30px 50px;">
+      <form action="/sns/controller/signup" class="was-validated" name="member" id="signUpForm" method="post">
+        
+        <div class="form-group">
+          <label for="mid">ID:</label>
+          <input type="text" class="form-control" name="mid" id="mid" placeholder="Enter username"  required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">아이디를 입력해 주세요</div>
+        </div>
+                
+        <div class="form-group">
+          <label for="pw">Password:</label>
+          <input type="text" class="form-control" name="pw" id="pw" placeholder="Enter password"  required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">비밀번호를 입력해 주세요</div>
+        </div>        
+        
+        <div class="form-group">
+          <label for="name">name:</label>
+          <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"  required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">이름을 입력해 주세요</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">email:</label>
+          <input type="text" class="form-control" name="email" id="email" placeholder="Enter email"  required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">이메일을 입력해 주세요</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">phone:</label>
+          <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone"  required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">전화번호를 입력해 주세요</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="birth">birth:</label>
+          <input type="date" class="form-control" name="birth" id="birth" placeholder="Enter birth"  required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">생년월일을 선택해 주세요</div>
+        </div>   
+         
+        <button type="button" onclick="CheckAddProduct()" class="btn btn-light" style="color:#6667AB; border-color:#6667AB;" >회원가입</button>
+      </form>
    </div>
 </body>
 </html>

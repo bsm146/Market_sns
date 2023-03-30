@@ -31,9 +31,9 @@
    
 <link rel = "stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <meta charset="UTF-8">
-<title>AcHome</title>
+<title>AcContent</title>
 </head>   
-<body>
+<body style="background-color:#f5f5f5;">
    
    
    <jsp:include page="../Nav/HomeNav.jsp"/>
@@ -79,7 +79,7 @@
    <!-- ─────────────────────────────────────────────────────────────────────────── -->
    <!-- 전체 게시물 출력 시작 -->
    
-   <div style="background-color: #f5f5f5;">
+
       <br><br>
       <div class="container">
          <section>
@@ -87,10 +87,9 @@
                <%-- 게시글 번호(나중엔 삭제 예정) --%>
                <div id="bphoto${i}" style="width: 502px; border: 1px solid #6667AB; border-radius: 20px;">
                	<div style="display:flex;">
-               		<div style="width:50%;">
-	                    <p><h3 class="sort">${listBoard.get(i).getBid()}번 for문 게시글(index:${param.index})</h3> 	              
+               		<div style="width:50%;">	              
                    	 	<%-- 게시글 작성자 프사(작성자 페이지 링크), 아이디(작성자 페이지 링크) --%>	
-	                    <div style="display:flex; margin-left:20px;">
+	                    <div style="display:flex; margin-left:20px;margin-top:30px;">
 		                    <p class="box" style="width: 60px; height: 60px; border-radius: 70%; overflow: hidden; background: #BDBDBD;"><img class="profile" onclick="location.href='/sns/controller/AcHomePage?m2id=${listBoard.get(i).getId()}'" 
 		                    src="../profilephoto/${listBoard.get(i).getPfp()}"/>
 		                   	<p style="margin-left:10px; margin-top:18px;">아이디 <a href="/sns/controller/AcHomePage?m2id=${listBoard.get(i).getId()}">
@@ -168,7 +167,7 @@
                      
                   <%-- 좋아요 1개 이상일때만 보여주기 --%>
                   <c:if test="${listBoard.get(i).getLikeCount() != 0}">
-                     <p class="sort" style="margin-top: -5px;"><a style="color: #6667AB;" href="#" data-toggle="modal" data-target="#logout" data-bid="${listBoard.get(i).getBid()}">좋아요 ${listBoard.get(i).getLikeCount()}개</a>
+                     <p class="sort" style="margin-top: -5px;"><a style="color: #6667AB;" href="#exampleModal" data-toggle="modal" data-target="#logout" data-bid="${listBoard.get(i).getBid()}">좋아요 ${listBoard.get(i).getLikeCount()}개</a>
                   </c:if>
                   
                   <%-- 게시글 내용 --%>
@@ -197,9 +196,27 @@
          
       </div>
       <br><br><br>
-   </div>
    
    <!-- 전체 게시물 출력 종료 -->
+   
+   
+   <%-- 모달 코드 --%>
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+         <div class="modal-content" id="modalContent">
+            <div class="modal-header" id="modalHeader">
+               <h5 class="modal-title" id="exampleModalLabel"></h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
+                  <span id="modalCloseSpan" aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+         </div>
+      </div>
+   </div>
+   <%-- 모달 코드 --%>
+   
    <!-- ─────────────────────────────────────────────────────────────────────────── -->
    
    

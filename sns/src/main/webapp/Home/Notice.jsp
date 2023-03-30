@@ -10,8 +10,17 @@
 <title>Searched</title>
 <!-- add Nav -->
 <jsp:include page="../Nav/HomeNav.jsp" flush="true" />
+<style>
+.container{
+	border:1px solid #6667AB;
+	border-radius:10px;
+	padding:10px;
+	background-color:white;
+	
+}
+</style>
 </head>	
-<body>
+<body style="background-color:#f5f5f5;">
 
 
 	
@@ -22,9 +31,9 @@
 			<p>알림없음
 			</c:when>
 			<c:when test="${not empty notiList}">
-			<c:forEach var="i" begin="0" end="${notiList.size()-1 }">
-			<p>${notiList.get(i) }</p>
-			</c:forEach>
+				<c:forEach var="i" begin="0" end="${notiList.size()-1 }">
+					<p>${notiList.get(i) }</p>
+				</c:forEach>
 			</c:when>
 		</c:choose>
 		

@@ -7,9 +7,7 @@
    <jsp:include page="../CssLink/HomeCSS.jsp"></jsp:include>
    
    <style type="text/css">
-    /* 프로필사진 */
-	.box {width: 60px; height: 60px; border-radius: 70%; overflow: hidden; background: #BDBDBD;}
-	.profile {width: 100%; height: 100%; object-fit: cover; display:flex;}
+    
    </style>
    
 <meta charset="UTF-8">
@@ -17,7 +15,7 @@
 </head>   
 <body style="background-color: #f5f5f5;">
 
-   <a id="toTop" href="#">맨위로</a> 
+<!--    <a id="toTop" href="#">맨위로</a>  -->
     
    <jsp:include page="../Nav/HomeNav.jsp"/>
    
@@ -42,7 +40,13 @@
    
    <!-- 버튼을 눌렀으면(기능 실행했을때) -->
    <c:if test="${boardCount != null}">
-      <c:set var="end" value="${boardCount + 2}"></c:set>
+<%--       <c:set var="end" value="${boardCount + 2}"></c:set> --%>
+      <c:if test="${boardCount+2>0 && len-1>0 }">
+          <!-- 끝에서 두번째 게시글부터는 무한스크롤 없이 전부 포문으로 출력 -->
+	      <c:if test="${boardCount>len-3}"><c:set var="begin" value="0"/><c:set var="end" value="${len-1}"/></c:if>		
+	      <!-- 끝에서 두번째전까지는 버튼눌린 게시글+2 만큼 출력 -->
+	      <c:if test="${boardCount<=len-3}"><c:set var="begin" value="0"/><c:set var="end" value="${boardCount + 2}"/></c:if>		
+       </c:if>
    </c:if>
    
    
@@ -60,10 +64,10 @@
                     
                     <%-- 게시글 작성자 프사(작성자 페이지 링크), 아이디(작성자 페이지 링크) --%>
                     <div style="display:flex; margin-left:20px;">
-	                    <p class="box"><img class="profile" onclick="location.href='/sns/controller/AcHomePage?m2id=${listBoard.get(i).getId()}'" 
-	                    src="../profilephoto/${listBoard.get(i).getPfp()}"/>
-	                   	<p style="margin-left:10px; margin-top:18px;">아이디 <a href="/sns/controller/AcHomePage?m2id=${listBoard.get(i).getId()}">
-	                   	${listBoard.get(i).getId()}</a></p>
+                       <p class="box"><img class="profile" onclick="location.href='/sns/controller/AcHomePage?m2id=${listBoard.get(i).getId()}'" 
+                       src="../profilephoto/${listBoard.get(i).getPfp()}"/>
+                         <p style="margin-left:10px; margin-top:18px;">아이디 <a href="/sns/controller/AcHomePage?m2id=${listBoard.get(i).getId()}">
+                         ${listBoard.get(i).getId()}</a></p>
                     </div>
                   <%-- 사진 뿌리기 시작 --%>
                   <c:if test="${photo.size() - 1 >= 0}">
@@ -96,18 +100,18 @@
                            
                             <%-- 화살표 버튼 시작 --%>
                             <a class="carousel-control-prev" href="#demo${i}" data-slide="prev">
-                            	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             </a>
                             <a class="carousel-control-next" href="#demo${i}" data-slide="next">
-                            	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             </a>
                             <%-- 화살표 버튼 종료 --%>
                          
                             <%-- 인디케이터 시작 --%>
                             <ul class="carousel-indicators">
-	                            <li data-target="#demo" data-slide-to="0" class="active"></li>
-	                            <li data-target="#demo" data-slide-to="1"></li>
-	                            <li data-target="#demo" data-slide-to="2"></li>
+                               <li data-target="#demo" data-slide-to="0" class="active"></li>
+                               <li data-target="#demo" data-slide-to="1"></li>
+                               <li data-target="#demo" data-slide-to="2"></li>
                             </ul>
                             <%-- 인디케이터 종료 --%>
                           </div>
@@ -118,19 +122,19 @@
                    
                    <%-- 좋아요(모달), 댓글(모달), 공유(모달), 게시물 저장 버튼(좋아요만 됨) --%>
                    <p class="sort" id="button4">
-    				               	
-                   		<c:choose>
-                   			<c:when test="${listBoard.get(i).getLikeCondition() eq 'Y'}">
-                   				<i class="bi bi-heart-fill" onclick="location.href='/sns/controller/likeWho?pageRoute=likeWho&bid=${listBoard.get(i).getBid()}&boardCount=${i}'"></i>
-                   			</c:when>
-                   			<c:otherwise>
-                   				<i class="bi bi-heart" onclick="location.href='/sns/controller/likeWho?pageRoute=likeWho&bid=${listBoard.get(i).getBid()}&boardCount=${i}'"></i>
-                   			</c:otherwise>
-                   		</c:choose>
-	                   
-	                   <a class="bi bi-chat-dots" href="#exampleModal" role="button" data-toggle="modal" data-name="comment"   data-count="${i}"></a>
-	                   <i class="bi bi-share"></i>
-	                   <i class="bi bi-bookmark-plus"></i>
+                                  
+                         <c:choose>
+                            <c:when test="${listBoard.get(i).getLikeCondition() eq 'Y'}">
+                               <i class="bi bi-heart-fill" onclick="location.href='/sns/controller/likeWho?pageRoute=likeWho&bid=${listBoard.get(i).getBid()}&boardCount=${i}'"></i>
+                            </c:when>
+                            <c:otherwise>
+                               <i class="bi bi-heart" onclick="location.href='/sns/controller/likeWho?pageRoute=likeWho&bid=${listBoard.get(i).getBid()}&boardCount=${i}'"></i>
+                            </c:otherwise>
+                         </c:choose>
+                      
+                      <a class="bi bi-chat-dots" href="#exampleModal" role="button" data-toggle="modal" data-name="comment"   data-count="${i}"></a>
+                      <i class="bi bi-share"></i>
+                      <i class="bi bi-bookmark-plus"></i>
                      
                   <!-- 좋아요 1개 이상일때만 보여주기 -->
                   <c:if test="${listBoard.get(i).getLikeCount() != 0}">
@@ -138,7 +142,7 @@
                   </c:if>
                   
                   <%-- 게시글 내용 --%>
-                  <p class="sort" id="boardContent">게시글 내용 ${listBoard.get(i).getContent()}
+                  <p class="sort" id="boardContent">${listBoard.get(i).getContent()}
                   
                   <%-- 댓글 1개 이상일때만 보여주기 --%>
                   <c:if test="${listBoard.get(i).getCommentCount() != 0}">
@@ -198,6 +202,8 @@
    
    <script>
    
+   var memberId = '${memberId}';
+   
    // 모달(좋아요, 댓글) 관련
    $('#exampleModal').on('show.bs.modal', function(e) {
        
@@ -211,18 +217,18 @@
        modalBody.innerHTML = '';
        
        // h5(모달 헤더 내용) 태그에 좋아요, 모달 제목 넣으려고 만듬
-//        var h5 = document.getElementById('h5');
        var exampleModalLabel = document.getElementById('exampleModalLabel');
        
        // 좋아요 눌렀으면
        if (name == 'like') {
           
-    	   exampleModalLabel.innerHTML = '누가누가 좋아요';
+          exampleModalLabel.innerHTML = '누가누가 좋아요';
           
           for (var i = 0; i < likeWhoId.length; i++) {
             if (listBoard[count].bid == likeWhoId[i].bid) {
                var p = document.createElement("p");
                 p.innerHTML = likeWhoId[i].likeId;
+                
                 p.innerHTML += '<hr style="border: 0; height: 1px; background-color: #6667AB;">';
                 $(".modal-body").append(p);
             }
@@ -232,7 +238,7 @@
        // 댓글 눌렀으면
        else if (name == 'comment') {
           
-    	   exampleModalLabel.innerHTML = '누가누가 댓글';
+          exampleModalLabel.innerHTML = '누가누가 댓글';
           var div = document.createElement("div");
          div.className = 'comment'
          $(".modal-body").append(div);
@@ -241,6 +247,9 @@
             if (listBoard[count].bid == listComment[i].id) {
                var p = document.createElement("p");
                 p.innerHTML = listComment[i].pfp + ' : ' + listComment[i].cid + ' : ' + listComment[i].content;
+            if (listComment[i].cid == memberId) {
+               p.innerHTML += '<i class="bi bi-x-lg modalCommentDelete" onclick="location.href=\'/sns/controller/deleteComment?pageRoute=deleteComment&bid=' + listBoard[count].bid + '&cid=' + listComment[i].commentId + '\'"></i>';
+            }
                 p.innerHTML += '<hr style="border: 0; height: 1px; background-color: #6667AB;">';
                 $(".comment").append(p);
             }
@@ -302,6 +311,7 @@
          pfp            : "${listComment.getPfp()}",
          likeCount      : "${listComment.getLikeCount()}",
          content         : "${listComment.getContent()}",
+         commentId     : "${listComment.getCommentId()}",
          birth         : "${listComment.getBirth()}"
       }); 
     </c:forEach>      
@@ -347,13 +357,13 @@
          
          // 좋아요 색상
          if (listBoard[index].likeCondition == 'Y') {
-        	 var likeCondition = '<i class="bi-heart-fill" onclick="location.href=\'/sns/controller/likeWho?pageRoute=likeWho&bid=' + listBoard[index].bid + '&boardCount=' + index + '\'"></i>';
+            var likeCondition = '<i class="bi-heart-fill" onclick="location.href=\'/sns/controller/likeWho?pageRoute=likeWho&bid=' + listBoard[index].bid + '&boardCount=' + index + '\'"></i>';
          }
          
          else {
-        	 var likeCondition = '<i class="bi-heart" onclick="location.href=\'/sns/controller/likeWho?pageRoute=likeWho&bid=' + listBoard[index].bid + '&boardCount=' + index + '\'"></i>';
-		}
-		
+            var likeCondition = '<i class="bi-heart" onclick="location.href=\'/sns/controller/likeWho?pageRoute=likeWho&bid=' + listBoard[index].bid + '&boardCount=' + index + '\'"></i>';
+      }
+      
          
          
          // 사진 뿌리기
@@ -406,7 +416,7 @@
                               photoDivStart + 
                               photoDivEnd + 
                               '<p class="sort" style="margin-top: -15px;">' + 
-                              	 likeCondition +
+                                  likeCondition +
                                  '<a class="bi bi-chat-dots" href="#exampleModal" role="button" data-toggle="modal" data-name="comment"   data-count="' + index + '"></a>' + 
                                  '<i class="bi bi-share"></i>' +
                                  '<i class="bi bi-bookmark-plus""></i>' +

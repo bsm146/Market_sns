@@ -106,7 +106,7 @@
 		</c:choose>
       </a></li>
 <!--DM-->
-      <li class="n-sideBar"><a href="#"><i class="fa-solid fa-paper-plane"></i></a></li>
+      <li class="n-sideBar"><a href="/sns/controller/DmPage"><i class="fa-solid fa-paper-plane"></i></a></li>
 <!-- 홈으로 가기 -->
       <li class="n-sideBar"><a href="/sns/controller/HomePage"><i class="fa-solid fa-house"></i></a></li>
 <!--내페이지-->   

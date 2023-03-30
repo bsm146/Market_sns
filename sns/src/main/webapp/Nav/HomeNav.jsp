@@ -94,12 +94,6 @@
 <!-- html here -->
 <nav id="homeNav">
     <a href="/sns/controller/HomePage">StarGram</a>
-    <br>
-	<a href="../Login/Login.jsp">로그인</a>
-    <br>
-    <c:if test="${memberId != null }">
-		<a>${memberId }</a>
-	</c:if>
     
     <form method="post" name="searchForm" action="/sns/controller/getSearch">
     	<input type="text" name="searchText" />
@@ -114,7 +108,7 @@
 		</c:choose>
       </a></li>
 <!--DM-->
-      <li class="n-sideBar"><a href="#"><i class="fa-solid fa-paper-plane"></i></a></li>
+      <li class="n-sideBar"><a href="/sns/controller/goDmPage"><i class="fa-solid fa-paper-plane"></i></a></li>
 <!--글쓰기-->
       <li class="n-sideBar"><a href="/sns/controller/WritePage"><i class="fa-solid fa-pen"></i></a></li>
 <!--내페이지-->      

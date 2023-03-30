@@ -1,5 +1,4 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <jsp:include page="../CssLink/CssLink.jsp" flush="true" /> --%>
 <style type="text/css">
    
    /* 무한 스크롤 */
@@ -168,5 +167,30 @@
     #modalCloseSpan {
        color: #6667AB;
     }
+    
+    /* 모달 댓글 삭제 */
+      .modalCommentDelete {
+      float: right;
+      font-size: 15px;
+      color: #6667AB;
+      cursor: pointer;
+      margin-right: 20px;
+      -webkit-text-stroke: 1px;
+   }
+   
+   .box {
+      width: 60px; height: 60px; 
+      border-radius: 70%; 
+      overflow: hidden; 
+      background: #BDBDBD;
+   }
+   
+   /* 프로필사진 */
+   .profile {
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      display:flex;
+   }
     
 </style>

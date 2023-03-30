@@ -9,7 +9,9 @@
 <title>SettingPage</title>
 <style>
 	* { font-family: 'Spoqa Han Sans Neo', 'sans-serif'; }
+
 	#editPage{
+	background-color:white;
 		display:flex;
 		border:1px solid #6667AB;
 		border-radius : 7px;
@@ -59,7 +61,7 @@
 </script>
 
 <jsp:include page="../Nav/HomeNav.jsp" flush="true" />
-<body>
+<body style="background-color:#f5f5f5;">
 <div class="container">
 	<div id="editPage">
 			<div class="names">
